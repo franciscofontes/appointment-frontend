@@ -1,0 +1,36 @@
+<section class="hero is-primary is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5-tablet is-4-desktop is-4-widescreen">
+                    <form [formGroup]="loginForm" (ngSubmit)="login(); $event.preventDefault()" class="box">
+                        <div class="field">
+                            <p class="subtitle has-text-dark">Login</p>
+                            <div class="is-divider"></div>
+                            <label for="email" class="label">Email</label>
+                            <div class="control">
+                                <input formControlName="email" class="input" type="text" />                                
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="senha" class="label">Senha</label>
+                            <div class="control">
+                                <input formControlName="senha" class="input" type="password" />                              
+                            </div>
+                        </div>
+                        <br />
+                        <div class="level">
+                            <div class="level-left">
+                            </div>
+                            <div class="level-right">
+                                <button class="button is-success">
+                                    Acessar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
