@@ -1,8 +1,13 @@
+@import '~material-icons/iconfont/material-icons.css';
+
 .navbar.is-dark {
-    background-color: rgb(46, 42, 62);
+    background-color: rgb(42 39 54);
 }
 
 .is-default {
     background-color: #c8c8c8;
 }
 
+.with-label {
+    margin-right: 0.5rem;
+}

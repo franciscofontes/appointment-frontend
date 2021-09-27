@@ -1,28 +1,34 @@
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-      <a class="navbar-item">
-        Appointment system    
-      </a>
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-      </a>
-  </div>
-  <div id="navbarBasic" class="navbar-menu">
-      <div class="navbar-start">
-          <div class="navbar-item has-dropdown is-hoverable">
-              <span class="navbar-item">
-                  <a class="navbar-link is-arrowless">
-                  </a>
-              </span>
-          </div>
-      </div>
-      <div class="navbar-end">
-          <div class="navbar-item">
-          </div>
-      </div>
-  </div>
+    <div class="navbar-brand">
+        <a class="navbar-item" (click)="openPage('home')">
+            <img src="assets/images/logo.png" />
+        </a>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div id="navbarBasic" class="navbar-menu">
+        <div class="navbar-start">
+            <div class="navbar-item has-dropdown is-hoverable" *ngFor="let p of appPages">
+                <span class="navbar-item">
+                    <a class="navbar-link is-arrowless" (click)="openPage(p.url)">
+                        <i class="material-icons with-label">{{p.icon}}</i>
+                        <span>{{p.title}}</span>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <a class="navbar-link is-arrowless" (click)="logout()">
+                    <i class="material-icons with-label">exit_to_app</i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <router-outlet></router-outlet>
