@@ -1,34 +1,37 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Entidade } from '../models/entidade';
 import { Page } from '../models/page';
-import { Entidade } from './../models/entidade';
+import { StorageService } from './storage.service';
 
 export abstract class GenericService<T extends Entidade> {
 
   baseUrl = environment.baseUrl;
 
-  constructor(public http: HttpClient, public endpoint: string) { }
+  constructor(public http: HttpClient, public endpoint: string, public storage: StorageService) { }
 
-  findByAll(): Observable<T[]> {
+  addAuthorization(headers: HttpHeaders) {
+    headers = headers.set('Authorization', 'Bearer ' + this.storage.getLocalUser().token);
+    return headers;
+  }
+
+  listar(): Observable<T[]> {
     return this.http.get<T[]>(
       `${this.baseUrl}/${this.endpoint}`
     );
   }
 
-  findById(id: number): Observable<T> {
+  buscarPeloId(id: number): Observable<T> {
     return this.http.get<T>(
       `${this.baseUrl}/${this.endpoint}/${id}`
     );
   }
 
-  findPerPage(
-    page?: number,
-    lines?: number,
-    orderBy?: string,
-    direction?: string
-  ): Observable<Page<T>> {
+  listarPorPagina(page?: number, lines?: number, orderBy?: string, direction?: string): Observable<Page<T>> {
+    
     let params = new HttpParams();
+   
     if (page) {
       params = params.append('page', page.toString());
     }
@@ -41,13 +44,17 @@ export abstract class GenericService<T extends Entidade> {
     if (direction) {
       params = params.append('direction', direction.toUpperCase());
     }
+
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = this.addAuthorization(headers);
+
     return this.http.get<Page<T>>(
-      `${this.baseUrl}/${this.endpoint}/page`,
-      { params }
+      `${this.baseUrl}/${this.endpoint}/pagina`,
+      { params, headers },
     );
   }
 
-  cadastrar(entidade: T) {
+  adicionar(entidade: T) {
     return this.http.post(
       `${this.baseUrl}/${this.endpoint}`,
       entidade,
@@ -75,15 +82,4 @@ export abstract class GenericService<T extends Entidade> {
     );
   }
 
-  ativar(id: number) {
-    return this.http.get<T>(
-      `${this.baseUrl}/${this.endpoint}/ativar=${id}`
-    );
-  }
-
-  desativar(id: number) {
-    return this.http.get<T>(
-      `${this.baseUrl}/${this.endpoint}/desativar=${id}`
-    );
-  }
 }

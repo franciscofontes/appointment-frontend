@@ -27,7 +27,7 @@ import { StorageService } from './services/storage.service';
     AuthenticationGuardService,
     AuthorityGuardService,
     StorageService,
-    AuthService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
