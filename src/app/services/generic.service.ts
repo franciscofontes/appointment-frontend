@@ -11,7 +11,8 @@ export abstract class GenericService<T extends Entidade> {
 
   constructor(public http: HttpClient, public endpoint: string, public storage: StorageService) { }
 
-  addAuthorization(headers: HttpHeaders) {
+  getAuthorization() {
+    let headers: HttpHeaders = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + this.storage.getLocalUser().token);
     return headers;
   }
@@ -45,8 +46,7 @@ export abstract class GenericService<T extends Entidade> {
       params = params.append('direction', direction.toUpperCase());
     }
 
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = this.addAuthorization(headers);
+    let headers: HttpHeaders = this.getAuthorization();
 
     return this.http.get<Page<T>>(
       `${this.baseUrl}/${this.endpoint}/pagina`,

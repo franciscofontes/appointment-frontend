@@ -13,11 +13,10 @@ export class AlocacaoService extends GenericService<Alocacao> {
   }
 
   buscarPeloProjetoId(id: number): Observable<Alocacao[]> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = this.addAuthorization(headers);    
+    let headers: HttpHeaders = this.getAuthorization();
     return this.http.get<Alocacao[]>(
       `${this.baseUrl}/alocacoes/projeto/${id}`,
       { headers },
     );
-  }  
+  }
 }
