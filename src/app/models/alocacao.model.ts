@@ -7,4 +7,5 @@ export interface Alocacao {
     colaborador: Colaborador;
     projeto: Projeto;
     apontamentos: Apontamento[];
+    totalHoras: string;
 }

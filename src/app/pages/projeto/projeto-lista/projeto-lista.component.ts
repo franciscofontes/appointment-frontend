@@ -27,10 +27,8 @@ export class ProjetoListaComponent implements OnInit {
   }
 
   filtrar() {;
-    this.service.listarPorPagina().subscribe(
-      page => {
-        this.page = page;
-        console.log(this.page);
+    this.service.listarPorPagina().subscribe(page => {
+        this.page = page;        
       },
       error => { }
     );

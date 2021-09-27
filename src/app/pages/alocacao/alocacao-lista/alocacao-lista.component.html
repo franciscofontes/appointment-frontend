@@ -1,0 +1,57 @@
+<h2 class="subtitle is-inline">Alocações</h2>
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <div class="field is-grouped">
+                <div class="control">
+                </div>
+                <div class="control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="field has-addons">
+            <div class="control ml-5">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="page?.content?.length > 0">
+
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th style="width: 5%">ID</th>
+                <th>Colaborador</th>
+                <th style="width: 15%">Total de horas no projeto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of page.content;">
+                <td>{{ item.id }}</td>
+                <td>{{ item.colaborador?.nome }}</td>
+                <td>{{ item.totalHoras }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div *ngIf="page?.content?.length === 0">
+    <p>Nenhum item cadastrado.</p>
+</div>
+
+<br />
+
+<div class="buttons">
+    <div class="control">
+        <a routerLink="/projetos" class="button is-link">
+            <i class="material-icons with-label">arrow_left</i>
+            <span>Voltar</span>
+        </a>
+    </div>
+</div>

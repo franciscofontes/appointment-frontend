@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Alocacao } from '../models/alocacao.model';
+import { Page } from '../models/page';
 import { GenericService } from './generic.service';
 import { StorageService } from './storage.service';
 
@@ -12,9 +13,9 @@ export class AlocacaoService extends GenericService<Alocacao> {
     super(http, 'alocacoes', storage);
   }
 
-  buscarPeloProjetoId(id: number): Observable<Alocacao[]> {
+  buscarPeloProjetoId(id: number): Observable<Page<Alocacao>> {
     let headers: HttpHeaders = this.getAuthorization();
-    return this.http.get<Alocacao[]>(
+    return this.http.get<Page<Alocacao>>(
       `${this.baseUrl}/alocacoes/projeto/${id}`,
       { headers },
     );
