@@ -23,11 +23,11 @@ import { StorageService } from './services/storage.service';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [    
+  providers: [
     AuthenticationGuardService,
     AuthorityGuardService,
     StorageService,
-    AuthService,    
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })
