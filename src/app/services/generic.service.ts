@@ -54,7 +54,7 @@ export abstract class GenericService<T extends Entidade> {
     );
   }
 
-  adicionar(entidade: T) {
+  cadastrar(entidade: T) {
     return this.http.post(
       `${this.baseUrl}/${this.endpoint}`,
       entidade,
