@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Alocacao } from 'src/app/models/alocacao.model';
+import { Apontamento } from 'src/app/models/apontamento.model';
 import { Page } from 'src/app/models/page';
 import { AlocacaoService } from 'src/app/services/alocacao.service';
+import { ApontamentoService } from 'src/app/services/apontamento.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ColaboradorService } from 'src/app/services/colaborador.service';
 
@@ -19,20 +22,35 @@ export class AlocacaoListaComponent implements OnInit {
   orderBy = "";
   direction = "";
 
+  formGroup: FormGroup;
+  alocacao: Alocacao;
+
+  loading: boolean;
+
   constructor(
     private alocacaoService: AlocacaoService,
     private colaboradorService: ColaboradorService,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private apontamentoService: ApontamentoService
   ) { }
 
   ngOnInit() {
     this.idProjeto = parseInt(this.activatedRoute.snapshot.params['id']);
     this.filtrar(this.idProjeto);
+    this.criarForm();
+  }
+
+  criarForm() {
+    this.formGroup = this.formBuilder.group({
+      horas: [null, [Validators.required]],
+      minutos: [null, [Validators.required]]
+    });
   }
 
   filtrar(idProjeto: number) {
-    if (this.authService.hasAuthority("LISTAR_ALOCACAO")) {    
+    if (this.authService.hasAuthority("LISTAR_ALOCACAO")) {
       this.alocacaoService.buscarAlocacoesPeloProjetoId(idProjeto).subscribe(page => {
         this.page = page;
       },
@@ -41,8 +59,8 @@ export class AlocacaoListaComponent implements OnInit {
     } else if (this.authService.hasAuthority("LISTAR_POR_COLABORADOR_ALOCACAO")) {
       this.colaboradorService.buscarColaboradorPeloUsuarioId(this.authService.getId()).subscribe(colaborador => {
         if (colaborador) {
-          this.alocacaoService.buscarAlocacoesPeloColaboradorIdEProjetoId(colaborador.id, idProjeto).subscribe(page => {
-            this.page = page;
+          this.alocacaoService.buscarAlocacoesPeloColaboradorIdEProjetoId(colaborador.id, idProjeto).subscribe(alocacao => {
+            this.page = alocacao;
           },
             error => { }
           );
@@ -51,5 +69,40 @@ export class AlocacaoListaComponent implements OnInit {
         error => { }
       );
     }
+  }
+
+  apenasNumeros(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
+  salvar() {
+
+    let minutos: number = (parseInt(this.formGroup.controls.horas.value) * 60) + parseInt(this.formGroup.controls.minutos.value);
+
+    if (minutos > 0) {
+
+      let apontamento: Apontamento = {
+        id: null,
+        minutos: minutos,
+        idAlocacao: this.page.content[0].id
+      }
+
+      console.log(apontamento);
+      this.loading = true;
+
+      this.apontamentoService.cadastrar(apontamento).subscribe(result => {
+        console.log("salvou");
+        this.loading = false;
+      },
+        error => {
+          this.loading = false;
+        }
+      );
+    }
+
   }
 }

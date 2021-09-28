@@ -30,9 +30,9 @@ export abstract class GenericService<T extends Entidade> {
   }
 
   listarPorPagina(page?: number, lines?: number, orderBy?: string, direction?: string): Observable<Page<T>> {
-    
+
     let params = new HttpParams();
-   
+
     if (page) {
       params = params.append('page', page.toString());
     }
@@ -55,30 +55,26 @@ export abstract class GenericService<T extends Entidade> {
   }
 
   cadastrar(entidade: T) {
+    let headers: HttpHeaders = this.getAuthorization();
     return this.http.post(
       `${this.baseUrl}/${this.endpoint}`,
-      entidade,
-      {
-        observe: 'response',
-        responseType: 'text'
-      }
+      entidade, { headers }
     );
   }
 
   editar(entidade: T) {
+    let headers: HttpHeaders = this.getAuthorization();
     return this.http.put(
       `${this.baseUrl}/${this.endpoint}/${entidade.id}`,
-      entidade,
-      {
-        observe: 'response',
-        responseType: 'text'
-      }
+      entidade, { headers }
     );
   }
 
   remover(entidade: T) {
+    let headers: HttpHeaders = this.getAuthorization();
     return this.http.delete(
-      `${this.baseUrl}/${this.endpoint}/${entidade.id}`
+      `${this.baseUrl}/${this.endpoint}/${entidade.id}`,
+      { headers }
     );
   }
 
