@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { Projeto } from 'src/app/models/projeto.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { ColaboradorService } from 'src/app/services/colaborador.service';
 import { ProjetoService } from 'src/app/services/projeto.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class ProjetoListaComponent implements OnInit {
 
   constructor(
     private projetoService: ProjetoService,
+    private colaboradorService: ColaboradorService,
     private authService: AuthService,
     private route: ActivatedRoute
   ) { }
@@ -35,14 +37,20 @@ export class ProjetoListaComponent implements OnInit {
         this.page = page;
       },
         error => { }
-      );      
+      );
     }    
     else if (this.authService.hasAuthority("LISTAR_POR_COLABORADOR_PROJETO")) {
-      this.projetoService.buscarPeloColaboradorId(2).subscribe(page => {
-        this.page = page;
+      this.colaboradorService.buscarColaboradorPeloUsuarioId(this.authService.getId()).subscribe(colaborador => {
+        if (colaborador) {
+          this.projetoService.buscarProjetosPeloColaboradorId(colaborador.id).subscribe(page => {
+            this.page = page;
+          },
+            error => { }
+          );
+        }
       },
         error => { }
-      );        
+      );
     }
 
   }

@@ -79,10 +79,10 @@ export class AuthService {
     return "";
   }
 
-  getNome() {
+  getId() {
     if (this.storage.getLocalUser() != null) {
       let token = this.storage.getLocalUser().token;
-      return this.jwtHelper.decodeToken(token).nome;
+      return this.jwtHelper.decodeToken(token).id;
     }
     return "";
   }

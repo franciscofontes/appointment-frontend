@@ -20,14 +20,6 @@ export class ProjetoFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const idProjeto = parseInt(this.activatedRoute.snapshot.params['id']);
-    this.buscarTodasAlocacoesDoProjeto(idProjeto);
-  }
-
-  buscarTodasAlocacoesDoProjeto(idProjeto: number) {
-    this.alocacaoService.buscarPeloProjetoId(idProjeto).subscribe(response => {
-      console.log(response);
-    });
   }
 
   validar(): boolean {

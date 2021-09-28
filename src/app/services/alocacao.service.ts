@@ -13,11 +13,27 @@ export class AlocacaoService extends GenericService<Alocacao> {
     super(http, 'alocacoes', storage);
   }
 
-  buscarPeloProjetoId(id: number): Observable<Page<Alocacao>> {
+  buscarAlocacoesPeloProjetoId(id: number): Observable<Page<Alocacao>> {
     let headers: HttpHeaders = this.getAuthorization();
     return this.http.get<Page<Alocacao>>(
       `${this.baseUrl}/alocacoes/projeto/${id}`,
       { headers },
     );
   }
+
+  buscarAlocacoesPeloColaboradorId(id: number): Observable<Page<Alocacao>> {
+    let headers: HttpHeaders = this.getAuthorization();
+    return this.http.get<Page<Alocacao>>(
+      `${this.baseUrl}/alocacoes/colaborador/${id}`,
+      { headers },
+    );
+  }  
+
+  buscarAlocacoesPeloColaboradorIdEProjetoId(idColaborador: number, idProjeto:number): Observable<Page<Alocacao>> {
+    let headers: HttpHeaders = this.getAuthorization();
+    return this.http.get<Page<Alocacao>>(
+      `${this.baseUrl}/alocacoes/colaborador/${idColaborador}/projeto/${idProjeto}`,
+      { headers },
+    );
+  }   
 }

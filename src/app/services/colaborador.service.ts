@@ -1,22 +1,21 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Page } from '../models/page';
-import { Projeto } from '../models/projeto.model';
+import { Colaborador } from '../models/colaborador.model';
 import { GenericService } from './generic.service';
 import { StorageService } from './storage.service';
 
 @Injectable()
-export class ProjetoService extends GenericService<Projeto> {
+export class ColaboradorService extends GenericService<Colaborador> {
 
   constructor(public http: HttpClient, storage: StorageService) {
-    super(http, 'projetos', storage);
+    super(http, 'colaboradores', storage);
   }
 
-  buscarProjetosPeloColaboradorId(id: number): Observable<Page<Projeto>> {
+  buscarColaboradorPeloUsuarioId(id: number): Observable<Colaborador> {
     let headers: HttpHeaders = this.getAuthorization();
-    return this.http.get<Page<Projeto>>(
-      `${this.baseUrl}/projetos/colaborador/${id}`,
+    return this.http.get<Colaborador>(
+      `${this.baseUrl}/colaboradores/usuario/${id}`,
       { headers },
     );
   }

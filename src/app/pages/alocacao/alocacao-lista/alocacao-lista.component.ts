@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Alocacao } from 'src/app/models/alocacao.model';
 import { Page } from 'src/app/models/page';
 import { AlocacaoService } from 'src/app/services/alocacao.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ColaboradorService } from 'src/app/services/colaborador.service';
 
 @Component({
   selector: 'app-alocacao-lista',
@@ -19,19 +21,35 @@ export class AlocacaoListaComponent implements OnInit {
 
   constructor(
     private alocacaoService: AlocacaoService,
-    private activatedRoute: ActivatedRoute
+    private colaboradorService: ColaboradorService,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.idProjeto = parseInt(this.activatedRoute.snapshot.params['id']);
-    this.buscarAlocacoesPeloProjeto(this.idProjeto);
+    this.filtrar(this.idProjeto);
   }
 
-  buscarAlocacoesPeloProjeto(idProjeto: number) {
-    this.alocacaoService.buscarPeloProjetoId(idProjeto).subscribe(page => {
-      this.page = page;
-    },
-      error => { }
-    );
+  filtrar(idProjeto: number) {
+    if (this.authService.hasAuthority("LISTAR_ALOCACAO")) {    
+      this.alocacaoService.buscarAlocacoesPeloProjetoId(idProjeto).subscribe(page => {
+        this.page = page;
+      },
+        error => { }
+      );
+    } else if (this.authService.hasAuthority("LISTAR_POR_COLABORADOR_ALOCACAO")) {
+      this.colaboradorService.buscarColaboradorPeloUsuarioId(this.authService.getId()).subscribe(colaborador => {
+        if (colaborador) {
+          this.alocacaoService.buscarAlocacoesPeloColaboradorIdEProjetoId(colaborador.id, idProjeto).subscribe(page => {
+            this.page = page;
+          },
+            error => { }
+          );
+        }
+      },
+        error => { }
+      );
+    }
   }
 }

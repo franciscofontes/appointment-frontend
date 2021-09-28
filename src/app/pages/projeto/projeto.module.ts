@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlocacaoService } from 'src/app/services/alocacao.service';
+import { ColaboradorService } from 'src/app/services/colaborador.service';
 import { ProjetoService } from 'src/app/services/projeto.service';
 import { DirectivesModule } from 'src/app/shared/directives/directives.module';
 import { HeaderModule } from 'src/app/shared/header/header.module';
@@ -28,7 +29,8 @@ import { ProjetoRoutingModule } from './projeto-routing.module';
     ],
     providers: [
         ProjetoService,
-        AlocacaoService
+        AlocacaoService,
+        ColaboradorService
     ]
 })
 export class ProjetoModule { }
