@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AuthService } from './services/auth.service';
 import { AuthenticationGuardService } from './services/authentication-guard.service';
 import { AuthorityGuardService } from './services/authority-guard.service';
@@ -29,7 +30,8 @@ import { DirectivesModule } from './shared/directives/directives.module';
     AuthenticationGuardService,
     AuthorityGuardService,
     StorageService,
-    AuthService
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

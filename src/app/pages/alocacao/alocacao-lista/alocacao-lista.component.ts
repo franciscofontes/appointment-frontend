@@ -79,6 +79,11 @@ export class AlocacaoListaComponent implements OnInit {
     return true;
   }
 
+  limparCampos() {
+    this.formGroup.controls.horas.setValue("");
+    this.formGroup.controls.minutos.setValue("");
+  }
+
   salvar() {
 
     let minutos: number = (parseInt(this.formGroup.controls.horas.value) * 60) + parseInt(this.formGroup.controls.minutos.value);
@@ -95,7 +100,8 @@ export class AlocacaoListaComponent implements OnInit {
       this.loading = true;
 
       this.apontamentoService.cadastrar(apontamento).subscribe(result => {
-        console.log("salvou");
+        this.msg = "Apontamento cadastrado com sucesso removido com sucesso";
+        this.limparCampos();
         this.loading = false;
       },
         error => {
