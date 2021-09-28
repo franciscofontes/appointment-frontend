@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Page } from 'src/app/models/page';
 import { Projeto } from 'src/app/models/projeto.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProjetoService } from 'src/app/services/projeto.service';
 
 @Component({
@@ -15,10 +16,11 @@ export class ProjetoListaComponent implements OnInit {
   projeto: Projeto;
 
   orderBy = "";
-  direction = "";  
+  direction = "";
 
   constructor(
-    private service: ProjetoService,
+    private projetoService: ProjetoService,
+    private authService: AuthService,
     private route: ActivatedRoute
   ) { }
 
@@ -26,20 +28,31 @@ export class ProjetoListaComponent implements OnInit {
     this.filtrar();
   }
 
-  filtrar() {;
-    this.service.listarPorPagina().subscribe(page => {
-        this.page = page;        
+  filtrar() {
+
+    if (this.authService.hasAuthority("LISTAR_PROJETO")) {
+      this.projetoService.listarPorPagina().subscribe(page => {
+        this.page = page;
       },
-      error => { }
-    );
-  }  
+        error => { }
+      );      
+    }    
+    else if (this.authService.hasAuthority("LISTAR_POR_COLABORADOR_PROJETO")) {
+      this.projetoService.buscarPeloColaboradorId(2).subscribe(page => {
+        this.page = page;
+      },
+        error => { }
+      );        
+    }
+
+  }
 
   onSort(event) {
     this.filtrar();
   }
 
   handlePage(event) {
-    this.service
+    this.projetoService
       .listarPorPagina(
         event.pageIndex,
         event.pageSize,

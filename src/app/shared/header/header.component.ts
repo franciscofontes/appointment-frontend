@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
       title: 'Projetos',
       url: 'projetos',
       icon: 'view_in_ar',
-      authority: 'LISTAR_PROJETO'
+      authority: 'EXIBIR_PROJETO'
     }
   ]
 

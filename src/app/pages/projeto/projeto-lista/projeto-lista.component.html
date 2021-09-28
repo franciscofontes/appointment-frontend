@@ -13,7 +13,7 @@
     <div class="level-left">
       <div class="level-item">
         <div class="field is-grouped">
-          <div class="control">            
+          <div class="control">
           </div>
           <div class="control">
           </div>
@@ -29,7 +29,7 @@
   </div>
 
   <div *ngIf="page?.content?.length > 0">
-
+    
     <table class="table is-fullwidth is-striped">
       <thead>
         <tr>
@@ -43,8 +43,8 @@
           <td>{{ item.id }}</td>
           <td>{{ item.nome }}</td>
           <td>
-            <div class="buttons" *hasAuthority="['LISTAR_POR_COLABORADOR_ALOCACAO']">
-              <a [routerLink]="['form', item.id]" class="button">
+            <div class="buttons are-small">
+              <a [routerLink]="['form', item.id]" class="button is-link">
                 <i class="material-icons">visibility</i>
               </a>
             </div>

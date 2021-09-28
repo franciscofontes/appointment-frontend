@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { AuthorityGuardService } from 'src/app/services/authority-guard.service';
 
 @Directive({
@@ -7,11 +7,9 @@ import { AuthorityGuardService } from 'src/app/services/authority-guard.service'
 export class AuthorityDirective implements OnInit {
 
     private authorities = [];
-    private operation = 'AND';
     private isHidden = true;
 
     constructor(
-        private element: ElementRef,
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
         private authorityGuardService: AuthorityGuardService
@@ -23,12 +21,6 @@ export class AuthorityDirective implements OnInit {
     @Input()
     set hasAuthority(val) {
         this.authorities = val;
-        this.updateView();
-    }
-
-    @Input()
-    set hasAuthorityOp(operation) {
-        this.operation = operation;
         this.updateView();
     }
 
@@ -46,11 +38,8 @@ export class AuthorityDirective implements OnInit {
 
     private checkAuthority() {
         let permission = false;
-        console.log(this.authorities);
-        
         for (const a of this.authorities) {
             if (this.authorityGuardService.hasAuthority(a)) {
-                console.log(this.authorityGuardService.hasAuthority(a));
                 permission = true;
             }
         }
