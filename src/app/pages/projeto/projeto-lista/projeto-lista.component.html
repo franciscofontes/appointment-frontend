@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <section class="section">
 
   <i class="material-icons with-title">view_in_ar</i>
@@ -5,15 +7,13 @@
 
   <div class="is-divider"></div>
 
+  <h2 class="subtitle is-inline">Lista de projetos</h2>
+
   <div class="level">
     <div class="level-left">
       <div class="level-item">
         <div class="field is-grouped">
-          <div class="control">
-            <a class="button is-primary" style="opacity: 0.5;">
-              <i class="material-icons with-label">add</i>
-              <span>Novo</span>
-            </a>
+          <div class="control">            
           </div>
           <div class="control">
           </div>
@@ -23,7 +23,6 @@
     <div class="level-right">
       <div class="field has-addons">
         <div class="control ml-5">
-
         </div>
       </div>
     </div>
@@ -44,9 +43,9 @@
           <td>{{ item.id }}</td>
           <td>{{ item.nome }}</td>
           <td>
-            <div class="buttons are-normal">
+            <div class="buttons" *hasAuthority="['LISTAR_POR_COLABORADOR_ALOCACAO']">
               <a [routerLink]="['form', item.id]" class="button">
-                <i class="material-icons">edit</i>
+                <i class="material-icons">visibility</i>
               </a>
             </div>
           </td>

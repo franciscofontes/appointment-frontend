@@ -10,7 +10,7 @@ import { AuthService } from './services/auth.service';
 import { AuthenticationGuardService } from './services/authentication-guard.service';
 import { AuthorityGuardService } from './services/authority-guard.service';
 import { StorageService } from './services/storage.service';
-import { AlocacaoListaComponent } from './pages/alocacao/alocacao-lista/alocacao-lista.component';
+import { DirectivesModule } from './shared/directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import { AlocacaoListaComponent } from './pages/alocacao/alocacao-lista/alocacao
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DirectivesModule
   ],
   providers: [
     AuthenticationGuardService,

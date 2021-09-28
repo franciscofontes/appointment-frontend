@@ -12,6 +12,7 @@ import { AlocacaoService } from 'src/app/services/alocacao.service';
 export class AlocacaoListaComponent implements OnInit {
 
   page: Page<Alocacao> = { content: null, number: 0, first: true, last: true, size: 0, totalPages: 0, totalElements: 0, };
+  idProjeto: number;
 
   orderBy = "";
   direction = "";
@@ -22,14 +23,14 @@ export class AlocacaoListaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const idProjeto = parseInt(this.activatedRoute.snapshot.params['id']);
-    this.buscarAlocacoesPeloProjeto(idProjeto);
+    this.idProjeto = parseInt(this.activatedRoute.snapshot.params['id']);
+    this.buscarAlocacoesPeloProjeto(this.idProjeto);
   }
 
-  buscarAlocacoesPeloProjeto(idProjeto:number) {
+  buscarAlocacoesPeloProjeto(idProjeto: number) {
     this.alocacaoService.buscarPeloProjetoId(idProjeto).subscribe(page => {
-        this.page = page;
-      },
+      this.page = page;
+    },
       error => { }
     );
   }
