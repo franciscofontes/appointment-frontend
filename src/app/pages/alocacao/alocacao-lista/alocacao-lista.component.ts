@@ -27,6 +27,11 @@ export class AlocacaoListaComponent implements OnInit {
 
   loading: boolean;
 
+  exibeMsg: boolean;
+  cssMsg: string;
+  tipoMsg: string;
+  msg: string;
+
   constructor(
     private alocacaoService: AlocacaoService,
     private colaboradorService: ColaboradorService,
@@ -86,6 +91,13 @@ export class AlocacaoListaComponent implements OnInit {
 
   salvar() {
 
+    if (this.formGroup.invalid) {
+      this.exibeMsg = true;
+      this.cssMsg = "is-warning";
+      this.tipoMsg = "Atenção";
+      this.msg = "Campos obrigatórios não preenchidos!";
+    }
+
     let minutos: number = (parseInt(this.formGroup.controls.horas.value) * 60) + parseInt(this.formGroup.controls.minutos.value);
 
     if (minutos > 0) {
@@ -100,11 +112,19 @@ export class AlocacaoListaComponent implements OnInit {
       this.loading = true;
 
       this.apontamentoService.cadastrar(apontamento).subscribe(result => {
-        this.msg = "Apontamento cadastrado com sucesso removido com sucesso";
         this.limparCampos();
+        this.exibeMsg = true;
+        this.cssMsg = "is-success";
+        this.tipoMsg = "Sucesso";
+        this.msg = "Apontamento cadastrado com sucesso!";
         this.loading = false;
+        this.filtrar(this.idProjeto);
       },
         error => {
+          this.exibeMsg = true;
+          this.cssMsg = "is-error";
+          this.tipoMsg = "Erro";
+          this.msg = "Ocorreu um erro ao tentar cadastrar!";
           this.loading = false;
         }
       );

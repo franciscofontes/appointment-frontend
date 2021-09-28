@@ -51,15 +51,15 @@
     <form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="salvar(); $event.preventDefault()">
         <div class="field has-addons">
             <p class="control">
-                <input (keypress)="apenasNumeros($event)" formControlName="horas" class="input" type="text" maxlength="2" style="width: 50px;"
-                    title="Horas" placeholder="hh"/>
+                <input (keypress)="apenasNumeros($event)" formControlName="horas" class="input" type="text"
+                    maxlength="2" style="width: 50px;" title="Horas" placeholder="hh" />
             </p>
             <p class="control">
                 <input value=":" disabled class="input" type="text" style="width: 25px; text-align: center;" />
             </p>
             <p class="control">
-                <input (keypress)="apenasNumeros($event)" formControlName="minutos" class="input" type="text" maxlength="2" style="width: 50px;"
-                    title="Minutos" placeholder="mm"/>
+                <input (keypress)="apenasNumeros($event)" formControlName="minutos" class="input" type="text"
+                    maxlength="2" style="width: 50px;" title="Minutos" placeholder="mm" />
             </p>
             <div class="control" style="padding-left: 10px;">
                 <button [disabled]="loading" type="submit" class="button is-success">
@@ -68,7 +68,18 @@
                 </button>
             </div>
         </div>
+
+        <article *ngIf="exibeMsg" class="message {{cssMsg}}">
+            <div class="message-header">
+                <p>{{tipoMsg}}</p>
+            </div>
+            <div class="message-body">
+                {{msg}}
+            </div>
+        </article>
+
         <progress *ngIf="loading" class="progress is-small is-primary" max="100"></progress>
+
     </form>
 </div>
 

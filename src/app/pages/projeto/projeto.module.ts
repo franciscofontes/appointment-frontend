@@ -26,7 +26,7 @@ import { ProjetoRoutingModule } from './projeto-routing.module';
         FormsModule,
         ReactiveFormsModule,
         DirectivesModule,
-        HeaderModule
+        HeaderModule,
     ],
     providers: [
         ProjetoService,
